@@ -783,30 +783,37 @@ export class PlotCanvas extends LayoutDOM
     # Create the constraints that always apply for a plot
     return [
       # Set the border constraints
-      GE( @above_panel._height, -@plot.min_border_top    ),
-      GE( @below_panel._height, -@plot.min_border_bottom ),
-      GE( @left_panel._width,   -@plot.min_border_left   ),
-      GE( @right_panel._width,  -@plot.min_border_right  ),
+      GE(@above_panel._height, -@plot.min_border_top   ),
+      GE(@below_panel._height, -@plot.min_border_bottom),
+      GE(@left_panel._width,   -@plot.min_border_left  ),
+      GE(@right_panel._width,  -@plot.min_border_right ),
 
-      # Set panel top and bottom related to canvas and frame
-      EQ( @above_panel._top,    [-1, @canvas._top]    ),
-      EQ( @above_panel._bottom, [-1, @frame._top]     ),
-      EQ( @below_panel._bottom, [-1, @canvas._bottom] ),
-      EQ( @below_panel._top,    [-1, @frame._bottom]  ),
-      EQ( @left_panel._left,    [-1, @canvas._left]   ),
-      EQ( @left_panel._right,   [-1, @frame._left]    ),
-      EQ( @right_panel._right,  [-1, @canvas._right]  ),
-      EQ( @right_panel._left,   [-1, @frame._right]   ),
+      # Relate panel boundaries to canvas and frame
+      EQ(@above_panel._top,    [-1, @canvas._top]   ),
+      EQ(@above_panel._bottom, [-1, @frame._top]    ),
+      EQ(@above_panel._left,   [-1, @canvas._left]  ),
+      EQ(@above_panel._right,  [-1, @canvas._right] ),
+
+      EQ(@below_panel._top,    [-1, @frame._bottom] ),
+      EQ(@below_panel._bottom, [-1, @canvas._bottom]),
+      EQ(@below_panel._left,   [-1, @canvas._left]  ),
+      EQ(@below_panel._right,  [-1, @canvas._right] ),
+
+      EQ(@left_panel._left,    [-1, @canvas._left]  ),
+      EQ(@left_panel._right,   [-1, @frame._left]   ),
+      EQ(@left_panel._top,     [-1, @canvas._top]   ),
+      EQ(@left_panel._bottom,  [-1, @canvas._bottom]),
+
+      EQ(@right_panel._left,   [-1, @frame._right]  ),
+      EQ(@right_panel._right,  [-1, @canvas._right] ),
+      EQ(@right_panel._top,    [-1, @canvas._top]   ),
+      EQ(@right_panel._bottom, [-1, @canvas._bottom]),
 
       # Plot sides align
-      EQ( @above_panel._height, [-1, @_top]                         ),
-      EQ( @above_panel._height, [-1, @canvas._top], @frame._top     ),
-      EQ( @below_panel._height, [-1, @_height], @_bottom            ),
-      EQ( @below_panel._height, [-1, @frame._bottom]                ),
-      EQ( @left_panel._width,   [-1, @_left]                        ),
-      EQ( @left_panel._width,   [-1, @frame._left]                  ),
-      EQ( @right_panel._width,  [-1, @_width], @_right              ),
-      EQ( @right_panel._width,  [-1, @canvas._right], @frame._right ),
+      EQ(@_top,                    [-1, @above_panel._height])
+      EQ(@_left,                   [-1, @left_panel._width])
+      EQ(@_height, [-1, @_bottom], [-1, @below_panel._height])
+      EQ(@_width, [-1, @_right],   [-1, @right_panel._width])
     ]
 
   _get_side_constraints: () ->
